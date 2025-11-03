@@ -1,30 +1,55 @@
 package co.edu.usco.pw.spring_restful_swagger.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import java.util.HashSet;
+import java.util.Set;
+import jakarta.persistence.*;
 
+@Data
 @Entity
 @Table(name = "usuarios")
-@Data
-@Schema(description = "Entidad que repersenta un usuario en el sistema.")
+@Schema(description = "Entidad que representa un usuario del sistema")
 public class Usuario {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Schema(description = "ID único del usuario (llave primaria)", example = "1", required = true)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID del usuario", example = "1")
+    private Long id;
 
-	@Schema(description = "Nombre del usuario", example = "Juan Pérez", required = true)
-	@Column(nullable = false)
-	private String nombre;
+    @Column(unique = true, nullable = false)
+    @Schema(description = "Nombre de usuario", example = "amaria")
+    private String username;
 
-	@Schema(description = "Correo electrónico del usuario", example = "juan.perez@example.com", required = true)
-	@Column(nullable = false)
-	private String email;
+    @Column(nullable = false)
+    @Schema(description = "Contraseña del usuario", example = "123456")
+    private String password;
+
+    @Column(nullable = false)
+    @Schema(description = "Nombre del usuario", example = "Ana María")
+    private String nombre;
+
+    @Schema(description = "Apellido del usuario", example = "Cabrera")
+    private String apellido;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "usuario_roles",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<Rol> roles = new HashSet<>();
+    
+    /**
+     * Relación inversa opcional: un docente puede tener varias asignaturas.
+     * FetchType.LAZY para evitar cargar siempre las asignaturas al traer el usuario.
+     * Este campo es opcional: si no lo quieres, puedes eliminarlo.
+     */
+    @OneToMany(mappedBy = "docenteEncargado", fetch = FetchType.LAZY)
+    private Set<Asignatura> asignaturasACargo = new HashSet<>();
 }
