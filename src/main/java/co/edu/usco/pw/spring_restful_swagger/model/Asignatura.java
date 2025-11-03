@@ -33,7 +33,7 @@ public class Asignatura {
     @Schema(description = "Hora de fin", example = "10:00")
     private LocalTime horarioFin;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "docente_id", nullable = true)
     @Schema(description = "Docente encargado de la asignatura")
     private Usuario docenteEncargado;

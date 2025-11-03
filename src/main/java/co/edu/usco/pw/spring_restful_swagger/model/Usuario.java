@@ -10,6 +10,7 @@ import lombok.Data;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @Entity
@@ -48,8 +49,9 @@ public class Usuario {
     /**
      * Relación inversa opcional: un docente puede tener varias asignaturas.
      * FetchType.LAZY para evitar cargar siempre las asignaturas al traer el usuario.
-     * Este campo es opcional: si no lo quieres, puedes eliminarlo.
+     * @JsonIgnore evita referencias circulares al serializar a JSON.
      */
     @OneToMany(mappedBy = "docenteEncargado", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Asignatura> asignaturasACargo = new HashSet<>();
 }

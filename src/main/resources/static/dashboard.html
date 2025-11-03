@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Asignaturas</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h2>Sistema de Asignaturas</h2>
+            </div>
+            <div class="nav-user">
+                <span id="userInfo">Bienvenido, <strong id="userName"></strong></span>
+                <span class="user-role" id="userRole"></span>
+                <button onclick="logout()" class="btn btn-logout">Cerrar Sesión</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Rector: Crear/Editar Asignatura -->
+            <div id="rectorSection" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>Gestión de Asignaturas (Rector)</h3>
+                    <button onclick="showCreateForm()" class="btn btn-primary">+ Nueva Asignatura</button>
+                </div>
+
+                <!-- Formulario Crear/Editar -->
+                <div id="asignaturaForm" class="form-card" style="display: none;">
+                    <h4 id="formTitle">Nueva Asignatura</h4>
+                    <form id="formAsignatura">
+                        <input type="hidden" id="asignaturaId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre">Nombre *</label>
+                                <input type="text" id="nombre" required placeholder="Ej: Matemáticas">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="salon">Salón *</label>
+                                <input type="number" id="salon" required placeholder="Ej: 101">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" rows="3" placeholder="Descripción de la asignatura"></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="horarioInicio">Horario Inicio</label>
+                                <input type="time" id="horarioInicio" placeholder="HH:mm">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="horarioFin">Horario Fin</label>
+                                <input type="time" id="horarioFin" placeholder="HH:mm">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="docenteId">Docente Encargado</label>
+                            <select id="docenteId">
+                                <option value="">Sin asignar</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" onclick="cancelForm()" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Docente: Actualizar Horarios -->
+            <div id="docenteSection" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>Actualizar Horarios (Docente)</h3>
+                </div>
+                
+                <div id="docenteHorarioForm" class="form-card" style="display: none;">
+                    <h4>Actualizar Horarios</h4>
+                    <form id="formHorarioDocente">
+                        <input type="hidden" id="horarioAsignaturaId">
+                        
+                        <div class="form-group">
+                            <label>Asignatura</label>
+                            <input type="text" id="horarioAsignaturaNombre" disabled>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="horarioDocenteInicio">Horario Inicio *</label>
+                                <input type="time" id="horarioDocenteInicio" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="horarioDocenteFin">Horario Fin *</label>
+                                <input type="time" id="horarioDocenteFin" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Actualizar Horarios</button>
+                            <button type="button" onclick="cancelDocenteForm()" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Lista de Asignaturas (Todos) -->
+            <div class="section">
+                <div class="section-header">
+                    <h3>Lista de Asignaturas</h3>
+                    <button onclick="loadAsignaturas()" class="btn btn-secondary">🔄 Actualizar</button>
+                </div>
+                
+                <div id="errorMessage" class="error-message"></div>
+                <div id="successMessage" class="success-message"></div>
+                
+                <div id="asignaturasContainer" class="cards-grid">
+                    <!-- Las tarjetas se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

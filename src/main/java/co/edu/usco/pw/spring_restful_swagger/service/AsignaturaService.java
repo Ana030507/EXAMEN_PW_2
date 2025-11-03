@@ -36,6 +36,37 @@ public class AsignaturaService {
     }
 
     /**
+     * Asigna un docente a una asignatura.
+     * Solo puede ser ejecutado por RECTOR.
+     *
+     * @param asignaturaId id de la asignatura
+     * @param docenteId    id del docente a asignar (null para quitar docente)
+     */
+    public Asignatura asignarDocente(Long asignaturaId, Long docenteId) {
+        Asignatura asignatura = asignaturaRepository.findById(asignaturaId)
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+
+        if (docenteId != null) {
+            Usuario docente = usuarioRepository.findById(docenteId)
+                    .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+            
+            // Verificar que el usuario tenga rol DOCENTE
+            boolean esDocente = docente.getRoles().stream()
+                    .anyMatch(rol -> rol.getNombre().equals("ROLE_DOCENTE"));
+            
+            if (!esDocente) {
+                throw new RuntimeException("El usuario no tiene rol de docente");
+            }
+            
+            asignatura.setDocenteEncargado(docente);
+        } else {
+            asignatura.setDocenteEncargado(null);
+        }
+
+        return asignaturaRepository.save(asignatura);
+    }
+
+    /**
      * Actualiza horarioInicio y horarioFin de la asignatura.
      * El usuario autenticado debe ser el docente encargado.
      *

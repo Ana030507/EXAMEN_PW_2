@@ -44,9 +44,11 @@ public class SecurityConfig {
             .csrf().disable()
             .authenticationProvider(authenticationProvider())
             .authorizeHttpRequests(auth -> auth
-                // permitir auth y swagger
+                // permitir auth, swagger y recursos estáticos
                 .requestMatchers("/api/auth/**",
-                                 "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                                 "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html",
+                                 "/", "/index.html", "/register.html", "/dashboard.html",
+                                 "/css/**", "/js/**", "/images/**").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(); // práctico para probar con Swagger

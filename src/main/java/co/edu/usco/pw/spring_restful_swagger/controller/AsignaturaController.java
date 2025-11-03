@@ -47,6 +47,17 @@ public class AsignaturaController {
         return ResponseEntity.ok(asignaturaService.listarAsignaturas());
     }
 
+    // --- Rector: asignar docente a asignatura ---
+    @PreAuthorize("hasRole('RECTOR')")
+    @PatchMapping("/{id}/docente")
+    public ResponseEntity<Asignatura> asignarDocente(
+            @PathVariable Long id,
+            @RequestParam(required = false) Long docenteId) {
+        Asignatura actualizado = asignaturaService.asignarDocente(id, docenteId);
+        return ResponseEntity.ok(actualizado);
+    }
+
+    // --- Docente: actualizar horarios solo de sus asignaturas ---
     @PreAuthorize("hasRole('DOCENTE')")
     @PatchMapping("/{id}/horarios")
     public ResponseEntity<Asignatura> actualizarHorarios(
