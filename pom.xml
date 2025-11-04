@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>co.edu.usco.pw</groupId>
-	<artifactId>spring_restful_swagger</artifactId>
+	<artifactId>examen</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>spring_restful_swagger</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Examen dos de PW</description>
 	<url />
 	<licenses>
 		<license />
